@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>คำนวณสารอาหาร</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fff0f5;
+      padding: 20px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #f08080;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #ddd;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+
+    .input-group {
+      margin: 15px 0;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .progress {
+      margin-top: 15px;
+    }
+
+    .bar {
+      height: 20px;
+      background: #f08080;
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    .macro {
+      margin-bottom: 15px;
+    }
+
+    .macro span {
+      display: block;
+      font-weight: bold;
+    }
+
+    .result {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>โปรแกรมติดตามแคลอรี่</h2>
+  <div class="box">
+    <div class="input-group">
+      <label for="kcalInput">กรอกแคลอรี่ที่กินวันนี้ (kcal):</label>
+      <input type="number" id="kcalInput" placeholder="เช่น 1100" />
+    </div>
+    <button onclick="calculate()">คำนวณ</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="macro">
+      <span>คาร์บ 60% (เป้า: 1645.8 kcal)</span>
+      <div class="bar" id="carbBar" style="width: 0%; background: #ffa07a;"></div>
+    </div>
+    <div class="macro">
+      <span>ไขมัน 25% (เป้า: 685.75 kcal)</span>
+      <div class="bar" id="fatBar" style="width: 0%; background: #f0c040;"></div>
+    </div>
+    <div class="macro">
+      <span>โปรตีน 15% (เป้า: 411.45 kcal)</span>
+      <div class="bar" id="proteinBar" style="width: 0%; background: #90ee90;"></div>
+    </div>
+  </div>
+
+  <script>
+    const totalKcal = 2743;
+    const carbTarget = totalKcal * 0.60;
+    const fatTarget = totalKcal * 0.25;
+    const proteinTarget = totalKcal * 0.15;
+
+    function calculate() {
+      const kcal = parseFloat(document.getElementById("kcalInput").value);
+      if (isNaN(kcal)) return;
+
+      const carbPercent = Math.min(100, (kcal / carbTarget) * 100);
+      const fatPercent = Math.min(100, (kcal / fatTarget) * 100);
+      const proteinPercent = Math.min(100, (kcal / proteinTarget) * 100);
+
+      document.getElementById("carbBar").style.width = carbPercent + "%";
+      document.getElementById("fatBar").style.width = fatPercent + "%";
+      document.getElementById("proteinBar").style.width = proteinPercent + "%";
+
+      document.getElementById("result").innerText =
+        `กินแล้ว ${kcal} / ${totalKcal} kcal (เหลือ ${totalKcal - kcal} kcal)`;
+    }
+  </script>
+</body>
+</html>
